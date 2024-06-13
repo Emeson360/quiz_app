@@ -45,6 +45,35 @@ include_once __DIR__ . '/partials/admin_header.php';
 					</a>
 				</li>
 
+				<!-- Session / Term -->
+				<li>
+					<a href="javascript: void(0);" class="has-arrow waves-effect">
+						<i class="ri-file-add-line align-middle"></i>
+						<span>Session/Term</span>
+					</a>
+					<ul class="sub-menu" aria-expanded="false">
+						<li><a href="add_session.php">Add Session</a></li>
+						<li><a href="set_session_term.php">Set Session/Term</a></li>
+
+					</ul>
+				</li>
+
+				<!-- Add Class -->
+				<li>
+					<a href="add_class.php" class="waves-effect">
+						<i class="ri-file-add-line align-middle"></i>
+						<span>Add Class</span>
+					</a>
+				</li>
+
+				<!-- Choose subjects of the day -->
+				<li>
+					<a href="subject_of_the_day.php" class="waves-effect">
+						<i class="ri-file-add-line align-middle"></i>
+						<span>Subject of the Day</span>
+					</a>
+				</li>
+
 				<!-- students -->
 				<li>
 					<a href="javascript: void(0);" class="has-arrow waves-effect">
@@ -134,15 +163,41 @@ include_once __DIR__ . '/partials/admin_header.php';
 
 										<div class="form-group mb-5 row">
 											<div class="col-6 mb-1">
-												<label class="text-white">Term</label>
-												<select class="form-select" id="validationCustom03" required name="term">
-													<option selected disabled value="">Select Term</option>
-													<option value="first_term">First Term</option>
-													<option value="second_term">Second Term</option>
-													<option value="third_term">Third Term</option>
+												<label class="text-white">Academic Session</label>
+												<select class="form-select" id="validationCustom03" required name="session">
+													<option selected disabled value="">Select Session</option>
+													<?php
+													$query_session = mysqli_query($con, "SELECT * FROM session");
+													foreach ($query_session as $key) {
+														$session = $key['session'];
+													?>
+
+														<option value="<?= $session ?>"><?= $session ?></option>
+													<?php
+													}
+													?>
 												</select>
 											</div>
 
+											<div class="col-6 mb-1">
+												<label class="text-white">Term</label>
+												<select class="form-select" id="validationCustom03" required name="term">
+													<option selected disabled value="">Select Term</option>
+													<?php
+													$query_term = mysqli_query($con, "SELECT * FROM term");
+													foreach ($query_term as $key) {
+														$term = $key['term'];
+													?>
+
+														<option value="<?= $term ?>"><?= $term ?></option>
+													<?php
+													}
+													?>
+												</select>
+											</div>
+										</div>
+
+										<div class="form-group mb-5 row">
 											<div class="col-6 mb-1">
 												<label class="text-white">Type of Exam</label>
 												<select class="form-select" id="validationCustom03" required name="type">
@@ -151,9 +206,7 @@ include_once __DIR__ . '/partials/admin_header.php';
 													<option value="exam">Exam</option>
 												</select>
 											</div>
-										</div>
 
-										<div class="form-group mb-5 row">
 											<div class="col-6 mb-1">
 												<label class="text-white">Class</label>
 												<select class="form-select" id="validationCustom03" required name="class">
@@ -163,7 +216,11 @@ include_once __DIR__ . '/partials/admin_header.php';
 												</select>
 											</div>
 
-											<div class="col-6 mb-1">
+
+										</div>
+
+										<div class="form-group mb-5 row">
+											<div class="col-12 mb-1">
 												<label class="text-white">Subject</label>
 												<select class="form-select" id="validationCustom03" required name="subject">
 													<option selected disabled value="">Choose Your Subject</option>

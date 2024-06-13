@@ -45,6 +45,35 @@ include_once __DIR__ . '/partials/admin_header.php';
 					</a>
 				</li>
 
+				<!-- Session / Term -->
+				<li>
+					<a href="javascript: void(0);" class="has-arrow waves-effect">
+						<i class="ri-file-add-line align-middle"></i>
+						<span>Session/Term</span>
+					</a>
+					<ul class="sub-menu" aria-expanded="false">
+						<li><a href="add_session.php">Add Session</a></li>
+						<li><a href="set_session_term.php">Set Session/Term</a></li>
+
+					</ul>
+				</li>
+
+				<!-- Add Class -->
+				<li>
+					<a href="add_class.php" class="waves-effect">
+						<i class="ri-file-add-line align-middle"></i>
+						<span>Add Class</span>
+					</a>
+				</li>
+
+				<!-- Choose subjects of the day -->
+				<li>
+					<a href="subject_of_the_day.php" class="waves-effect">
+						<i class="ri-file-add-line align-middle"></i>
+						<span>Subject of the Day</span>
+					</a>
+				</li>
+
 				<!-- students -->
 				<li>
 					<a href="javascript: void(0);" class="has-arrow waves-effect">
@@ -125,6 +154,8 @@ include_once __DIR__ . '/partials/admin_header.php';
 							<?php
 							if (isset($_POST['view'])) {
 								$class = filter_var($_POST['class'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+								$session = filter_var($_POST['session'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+								$term = filter_var($_POST['term'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 							} else {
 								redirect("view_grades.php");
 							}
@@ -151,6 +182,7 @@ include_once __DIR__ . '/partials/admin_header.php';
 										<th>Computer Studies</th>
 										<th>French Language</th>
 										<th>CCA</th>
+										<th>Home Economics</th>
 										<th>HPE</th>
 										<th>Security Education</th>
 									</tr>
@@ -159,14 +191,15 @@ include_once __DIR__ . '/partials/admin_header.php';
 
 								<tbody>
 									<?php
-									$query_students = mysqli_query($con, "SELECT * FROM students WHERE class = '$class'");
+									$query_students_result = mysqli_query($con, "SELECT * FROM result WHERE class = '$class' AND (session = '$session' AND term = '$term')");
 
+									
 									?>
-									<?php if (mysqli_num_rows($query_students) > 0) : ?>
+									<?php if (mysqli_num_rows($query_students_result) > 0) : ?>
 										<?php
 										$sn = 1;
-										foreach ($query_students as $student_data) {
-											$reg_no = $student_data['reg_no'];
+										foreach ($query_students_result as $student_data) {
+											$student_id = $student_data['student_id'];
 											$fullname = $student_data['fullname'];
 											$English_Language = $student_data['English_Language'];
 											$Mathematics = $student_data['Mathematics'];
@@ -182,10 +215,16 @@ include_once __DIR__ . '/partials/admin_header.php';
 											$Computer_Studies = $student_data['Computer_Studies'];
 											$French_Language = $student_data['French_Language'];
 											$CCA = $student_data['CCA'];
+											$Home_Economics = $student_data['Home_Economics'];
 											$HPE = $student_data['HPE'];
 											$Security_Education = $student_data['Security_Education'];
-
-										?>
+											
+											$query_students = mysqli_query($con, "SELECT * FROM students WHERE id = '$student_id'");
+											foreach ($query_students as $student_main_data) {
+												
+												$reg_no = $student_main_data['reg_no'];
+											}
+											?>
 											<tr>
 												<td><?= $sn++; ?></td>
 												<td><?= $reg_no; ?></td>
@@ -205,6 +244,7 @@ include_once __DIR__ . '/partials/admin_header.php';
 												<td><?= $Computer_Studies; ?></td>
 												<td><?= $French_Language; ?></td>
 												<td><?= $CCA; ?></td>
+												<td><?= $Home_Economics; ?></td>
 												<td><?= $HPE; ?></td>
 												<td><?= $Security_Education; ?></td>
 											</tr>

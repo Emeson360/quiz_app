@@ -24,7 +24,7 @@ if (isset($_POST['login'])) {
       $_SESSION['eass_user'] = $user_record;
       $fullname = $_SESSION['eass_user']['fullname'];
 
-      session_n_redirect("login-success", "class_subject.php", $fullname);
+      session_n_redirect("login-success", "subject.php", $fullname);
     } else {
       session_n_redirect("login", "index.php", "Incorrect Reg Number");
     }

@@ -7,6 +7,11 @@ $DB_USER = "root";
 $DB_PASS = "";
 $DB_NAME = "eass_cbt";
 
+// $DB_HOST = 'localhost';
+// $DB_USER = 'niifslkj_niifslkj';
+// $DB_PASS = '!:75Zx5emHO8rD';
+// $DB_NAME = 'niifslkj_easse_db';
+
 
 $con = mysqli_connect($DB_HOST, $DB_USER, $DB_PASS, $DB_NAME);
 

@@ -1,6 +1,7 @@
 <?php
 session_start();
 define('ROOT_URL', 'http://localhost/Quiz_app_(CBT)/'); //DEV
+// define('ROOT_URL', 'https://ngaenugu.com.ng/easse/'); //PROD
 
 
 // Session and redirect

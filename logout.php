@@ -2,7 +2,12 @@
 
 include __DIR__  . '/config/database.php';
 
-// Destroy the session and logout student
+if (isset($_GET['nextSubject'])) {
+  if ($_GET['nextSubject'] == 1) {
+    header('location: ' . ROOT_URL . 'subject.php');
+  }
+}
+
 if (isset($_GET['logout'])) {
   if ($_GET['logout'] == 1) {
     session_destroy();

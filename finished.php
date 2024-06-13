@@ -25,6 +25,7 @@ include_once __DIR__ . '/config/database.php';
 			border-radius: 7px;
 			margin-bottom: 20px;
 		}
+
 		a {
 			text-align: center;
 			background-color: #082B43;
@@ -41,65 +42,100 @@ include_once __DIR__ . '/config/database.php';
 <body>
 	<div class="container">
 		<div class="head">
-			<h2><span>Emmanuel Anglican Secondary School </span> CBT (2nd Term Test)</h2>
+			<?php
+			$query_session_term = mysqli_query($con, "SELECT * FROM session_term");
+			$session_term_data = mysqli_fetch_assoc($query_session_term);
+			$session = $session_term_data['session'];
+			$term = $session_term_data['term'];
+
+			$student_id = $_SESSION['eass_user']['id'];
+			$query_student = mysqli_query($con, "SELECT * FROM students WHERE id = '$student_id'");
+			$student_data = mysqli_fetch_assoc($query_student);
+			$class = $student_data['class'];
+			$gen_class = rtrim($class, 'ABCDE');
+			?>
+			<h2><span>EASSE </span> CBT || <?= $session ?> (<?= $term ?> Test)</h2>
 
 			<?php
-			if (isset($_SESSION['class']) && isset($_SESSION['subject'])) {
-				$class = $_SESSION['class'];
-				if ($_SESSION['subject'] == 'English_Language') {
-					$subject = 'English Language';
-				} elseif ($_SESSION['subject'] == 'Business_Studies') {
-					$subject = 'Business Studies';
-				} elseif ($_SESSION['subject'] == 'Agric_Science') {
-					$subject = 'Agric Science';
-				} elseif ($_SESSION['subject'] == 'Basic_Science') {
-					$subject = 'Basic Science';
-				} elseif ($_SESSION['subject'] == 'Basic_Technology') {
-					$subject = 'Basic Technology';
-				} elseif ($_SESSION['subject'] == 'Social_Studies') {
-					$subject = 'Social Studies';
-				} elseif ($_SESSION['subject'] == 'Civic_Education') {
-					$subject = 'Civic Education';
-				} elseif ($_SESSION['subject'] == 'Computer_Studies') {
-					$subject = 'Computer_Studies';
-				} elseif ($_SESSION['subject'] == 'French_Language') {
-					$subject = 'French_Language';
-				} elseif ($_SESSION['subject'] == 'Home_Economics') {
-					$subject = 'Home_Economics';
-				} elseif ($_SESSION['subject'] == 'Security_Education') {
-					$subject = 'Security_Education';
-				} else {
-					$subject = $_SESSION['subject'];
+			// dd($_SESSION['subject']);
+			if (isset($_SESSION['subject'])) {
+				
+				$subject = $_SESSION['subject'];
+				if($subject == 'English Language') {
+					$subject_ = 'English_Language';
 				}
+				elseif($subject == 'Business Studies') {
+					$subject_ = 'Business_Studies';
+				}
+				elseif($subject == 'Agric Science') {
+					$subject_ = 'Agric_Science';
+				}
+				elseif($subject == 'Basic Science') {
+					$subject_ = 'Basic_Science';
+				}
+				elseif($subject == 'Basic Technology') {
+					$subject_ = 'Basic_Technology';
+				}
+				elseif($subject == 'French Language') {
+					$subject_ = 'French_Language';
+				}
+				elseif($subject == 'Social Studies') {
+					$subject_ = 'Social_Studies';
+				}
+				elseif($subject == 'Civic Education') {
+					$subject_ = 'Civic_Education';
+				}
+				elseif($subject == 'Computer Studies') {
+					$subject_ = 'Computer_Studies';
+				}
+				elseif($subject == 'Home Economics') {
+					$subject_ = 'Home_Economics';
+				}
+				elseif($subject == 'Security Education') {
+					$subject_ = 'Security_Education';
+				}
+				else {
+					$subject_ = $_SESSION['subject'];
+				}
+
 			}
 			?>
 
 			<div class="flex">
 				<h3>Subject: <?= $subject ?> </h3>
 				<h3>Class: <?= $class ?> </h3>
+				<h3>Session: <?= $session ?> </h3>
+				<h3>Term: <?= $term ?> </h3>
 
 			</div>
 		</div>
 		<div class="quiz">
 			<?php
 
-			$class_ = $_SESSION['class'];
-			$subject_ = $_SESSION['subject'];
-			$reg_no = $_SESSION['eass_user']['reg_no'];
-			$query_student = mysqli_query($con, "SELECT * FROM students WHERE reg_no = '$reg_no'");
+
+			
+
+			$query_student = mysqli_query($con, "SELECT * FROM result WHERE student_id = '$student_id'");
 			if (mysqli_num_rows($query_student) == 1) {
 				$student_data = mysqli_fetch_assoc($query_student);
 
 				$score = $student_data[$subject_];
 			}
-
+// dd($score);
 			?>
+
+			
 
 			<h1>Exam is Over</h1>
 
 			<h1>Score: <?= $score ?>/10</h1>
 
-			<a href="logout.php?logout=1" onclick="clearLocalStorage()">Log Out</a>
+			<div style="display: flex; justify-content: center;">
+				<a href="logout.php?nextSubject=1" onclick="clearLocalStorage()">Start Next Subject</a>
+				<a href="logout.php?logout=1" onclick="clearLocalStorage()">Log Out</a>
+
+			</div>
+
 
 		</div>
 	</div>

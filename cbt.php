@@ -52,37 +52,25 @@ include_once __DIR__ . '/config/database.php';
 <body>
 	<div class="container">
 		<div class="head">
-			<h2><span>Emmanuel Anglican Secondary School </span> CBT (2nd Term Test)</h2>
 			<?php
-			if (isset($_SESSION['class']) && isset($_SESSION['subject'])) {
-				$class = $_SESSION['class'];
-				if ($_SESSION['subject'] == 'English_Language') {
-					$subject = 'English Language';
-				} elseif ($_SESSION['subject'] == 'Business_Studies') {
-					$subject = 'Business Studies';
-				} elseif ($_SESSION['subject'] == 'Agric_Science') {
-					$subject = 'Agric Science';
-				} elseif ($_SESSION['subject'] == 'Basic_Science') {
-					$subject = 'Basic Science';
-				} elseif ($_SESSION['subject'] == 'Basic_Technology') {
-					$subject = 'Basic Technology';
-				} elseif ($_SESSION['subject'] == 'Social_Studies') {
-					$subject = 'Social Studies';
-				} elseif ($_SESSION['subject'] == 'Civic_Education') {
-					$subject = 'Civic Education';
-				} elseif ($_SESSION['subject'] == 'Computer_Studies') {
-					$subject = 'Computer Studies';
-				} elseif ($_SESSION['subject'] == 'French_Language') {
-					$subject = 'French Language';
-				} elseif ($_SESSION['subject'] == 'CCA') {
-					$subject = 'CCA';
-				} elseif ($_SESSION['subject'] == 'Home_Economics') {
-					$subject = 'Home Economics';
-				} elseif ($_SESSION['subject'] == 'Security_Education') {
-					$subject = 'Security Education';
-				} else {
-					$subject = $_SESSION['subject'];
-				}
+			$query_session_term = mysqli_query($con, "SELECT * FROM session_term");
+			$session_term_data = mysqli_fetch_assoc($query_session_term);
+			$session = $session_term_data['session'];
+			$term = $session_term_data['term'];
+
+			$student_id = $_SESSION['eass_user']['id'];
+			$query_student = mysqli_query($con, "SELECT * FROM students WHERE id = '$student_id'");
+			$student_data = mysqli_fetch_assoc($query_student);
+			$class = $student_data['class'];
+			$gen_class = rtrim($class, 'ABCDE');
+			?>
+			<h2><span>EASSE </span> CBT || <?= $session ?> (<?= $term ?> Test)</h2>
+			<?php
+			if (isset($_SESSION['subject'])) {
+
+				$subject = $_SESSION['subject'];
+			} else {
+				redirect('subject.php');
 			}
 
 			if (isset($_SESSION['cbt'])) {
@@ -95,12 +83,16 @@ include_once __DIR__ . '/config/database.php';
 			<div class="flex">
 				<h3>Subject: <?= $subject ?> </h3>
 				<h3>Class: <?= $class ?> </h3>
+				<h3>Session: <?= $session ?> </h3>
+				<h3>Term: <?= $term ?> </h3>
 
 				<div class="count_timer flex pri-bg">
 					<div>
 						<p id="minutes">00</p>
 					</div>
-
+					<div style="margin-left: 4px;">
+						:
+					</div>
 					<div style="margin-left: 4px;">
 						<p id="seconds">00</p>
 					</div>
@@ -112,11 +104,11 @@ include_once __DIR__ . '/config/database.php';
 		</div>
 		<div class="quiz">
 			<?php
-			$query_question = mysqli_query($con, "SELECT * FROM questions WHERE class = '$class' AND subject = '$subject'");
+
+			$query_question = mysqli_query($con, "SELECT * FROM questions WHERE class = '$gen_class' AND (session = '$session' AND (term = '$term' AND subject = '$subject'))");
 			if (mysqli_num_rows($query_question) == 1) {
 				$question_data = mysqli_fetch_assoc($query_question);
 			}
-
 			?>
 			<?php if ($question_data['instruction'] != '') : ?>
 				<h3 id="instruction"><?= $question_data['instruction'] ?></h3>

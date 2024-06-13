@@ -172,10 +172,13 @@ const questions = [
 
 ];
 
+var len = questions
+
 const questionElement = document.getElementById("question");
 const answerButtons = document.getElementById("answer-button");
 const scoreForm = document.getElementById("score_form");
 const nextButton = document.getElementById("next-btn");
+console.log('hi');
 
 let currentQuestionIndex = 0;
 let score = 0;
@@ -187,6 +190,7 @@ const startQuiz = () => {
 	const shuffledQuestions = shuffleArray(questions);
 	localStorage.setItem('quizQuestions', JSON.stringify(shuffledQuestions));
 	showQuestions();
+
 };
 
 
@@ -372,7 +376,7 @@ var examTime = setInterval(function () {
 		seconds = '0' + seconds;
 	}
 
-	document.getElementById('minutes').innerHTML = minutes + ' : ';
+	document.getElementById('minutes').innerHTML = minutes;
 	document.getElementById('seconds').innerHTML = seconds;
 
 	// If the count down is over, write some text 

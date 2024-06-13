@@ -45,6 +45,35 @@ include_once __DIR__ . '/partials/admin_header.php';
 					</a>
 				</li>
 
+				<!-- Session / Term -->
+				<li>
+					<a href="javascript: void(0);" class="has-arrow waves-effect">
+						<i class="ri-file-add-line align-middle"></i>
+						<span>Session/Term</span>
+					</a>
+					<ul class="sub-menu" aria-expanded="false">
+						<li><a href="add_session.php">Add Session</a></li>
+						<li><a href="set_session_term.php">Set Session/Term</a></li>
+
+					</ul>
+				</li>
+
+				<!-- Add Class -->
+				<li>
+					<a href="add_class.php" class="waves-effect">
+						<i class="ri-file-add-line align-middle"></i>
+						<span>Add Class</span>
+					</a>
+				</li>
+
+				<!-- Choose subjects of the day -->
+				<li>
+					<a href="subject_of_the_day.php" class="waves-effect">
+						<i class="ri-file-add-line align-middle"></i>
+						<span>Subject of the Day</span>
+					</a>
+				</li>
+
 				<!-- students -->
 				<li>
 					<a href="javascript: void(0);" class="has-arrow waves-effect">
@@ -118,7 +147,7 @@ include_once __DIR__ . '/partials/admin_header.php';
 				<div class="col-lg-6 mx-auto order-2 order-md-3 order-lg-2 mb-4">
 					<div class="card" style="background-color: #082B43;">
 						<div class="card-head px-5 py-3" style="background-color: #12659C;">
-							<h4 class="fw-normal text-white">Select Student's Class</h4>
+							<h4 class="fw-normal text-white">Select Student's Class, Session and Term</h4>
 						</div>
 						<div class="card-body p-0 px-3 py-3">
 
@@ -141,6 +170,49 @@ include_once __DIR__ . '/partials/admin_header.php';
 											<option value="JSS2E">JSS2E</option>
 										</select>
 									</div>
+								</div>
+								<div class="form-group mb-3 row">
+									<div class="col-6">
+										<label for="validationCustom03" class="form-label text-white">Academic Session</label>
+										<select class="form-select" id="validationCustom03" required name="session">
+											<option selected disabled value="">Select Academic Session</option>
+											<?php
+											$query_session = mysqli_query($con, "SELECT * FROM session");
+											if (mysqli_num_rows($query_session) > 0) {
+												foreach ($query_session as $key) {
+													$session = $key['session'];
+											?>
+													<option value="<?= $session ?>"><?= $session ?></option>
+												<?php
+												}
+												?>
+
+											<?php
+											}
+											?>
+										</select>
+									</div>
+									<div class="col-6">
+										<label for="validationCustom03" class="form-label text-white">Academic Term</label>
+										<select class="form-select" id="validationCustom03" required name="term">
+											<option selected disabled value="">Select Academic Term</option>
+											<?php
+											$query_term = mysqli_query($con, "SELECT * FROM term");
+											if (mysqli_num_rows($query_term) > 0) {
+												foreach ($query_term as $key) {
+													$term = $key['term'];
+											?>
+													<option value="<?= $term ?>"><?= $term ?></option>
+												<?php
+												}
+												?>
+
+											<?php
+											}
+											?>
+										</select>
+									</div>
+
 								</div>
 
 								<div class="form-group mb-3 text-center row mt-3 pt-1">

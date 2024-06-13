@@ -45,6 +45,35 @@ include_once __DIR__ . '/partials/admin_header.php';
 					</a>
 				</li>
 
+				<!-- Session / Term -->
+				<li>
+					<a href="javascript: void(0);" class="has-arrow waves-effect">
+						<i class="ri-file-add-line align-middle"></i>
+						<span>Session/Term</span>
+					</a>
+					<ul class="sub-menu" aria-expanded="false">
+						<li><a href="add_session.php">Add Session</a></li>
+						<li><a href="set_session_term.php">Set Session/Term</a></li>
+
+					</ul>
+				</li>
+
+				<!-- Add Class -->
+				<li>
+					<a href="add_class.php" class="waves-effect">
+						<i class="ri-file-add-line align-middle"></i>
+						<span>Add Class</span>
+					</a>
+				</li>
+
+				<!-- Choose subjects of the day -->
+				<li>
+					<a href="subject_of_the_day.php" class="waves-effect">
+						<i class="ri-file-add-line align-middle"></i>
+						<span>Subject of the Day</span>
+					</a>
+				</li>
+
 				<!-- students -->
 				<li class="mm-active">
 					<a href="javascript: void(0);" class="has-arrow waves-effect">
